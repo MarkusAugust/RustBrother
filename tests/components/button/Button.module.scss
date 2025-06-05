@@ -3,37 +3,37 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  
+
   &_primary {
     background-color: #007bff;
     color: white;
   }
-  
+
   &_secondary {
     background-color: #6c757d;
     color: white;
   }
-  
+
   &_danger {
     background-color: #dc3545;
     color: white;
   }
-  
+
   &_small {
     padding: 0.25rem 0.5rem;
     font-size: 0.875rem;
   }
-  
+
   &_medium {
     padding: 0.5rem 1rem;
     font-size: 1rem;
   }
-  
+
   &_large {
     padding: 0.75rem 1.5rem;
     font-size: 1.125rem;
   }
-  
+
   &_disabled {
     opacity: 0.6;
     cursor: not-allowed;
@@ -52,4 +52,9 @@
 .icon {
   width: 1rem;
   height: 1rem;
+}
+
+.iconLarge {
+  width: 2rem;
+  height: 2rem;
 }

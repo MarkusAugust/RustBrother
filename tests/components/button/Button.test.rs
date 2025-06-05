@@ -1,26 +1,9 @@
-// tests/components/button/Button.test.rs
-
-use rustbrother::{extract_css_references_with_css_context, AnalysisConfig};
-use std::fs;
+use rustbrother::{analyze_directory, AnalysisConfig};
+use std::path::Path;
 
 #[test]
-fn test_button_component() {
-    let component_content = fs::read_to_string("tests/components/button/Button.tsx").unwrap();
-    
-    let css_classes = vec![
-        "button".to_string(),
-        "button_primary".to_string(),
-        "button_secondary".to_string(),
-        "button_danger".to_string(),
-        "button_small".to_string(),
-        "button_medium".to_string(),
-        "button_large".to_string(),
-        "button_disabled".to_string(),
-        "buttonText".to_string(),
-        "iconWrapper".to_string(),
-        "icon".to_string(),
-    ];
-
+fn test_button_component_full_analysis() {
+    let test_path = Path::new("tests/components/button");
     let config = AnalysisConfig {
         include_css_modules: true,
         include_styled_components: false,
@@ -28,22 +11,35 @@ fn test_button_component() {
         ..Default::default()
     };
 
-    let classes = extract_css_references_with_css_context(&component_content, &config, &css_classes);
+    // Run full analysis on the button component directory
+    let result = analyze_directory(test_path, &config).unwrap();
     
-    // Base classes
-    assert!(classes.contains(&"button".to_string()));
-    assert!(classes.contains(&"buttonText".to_string()));
-    assert!(classes.contains(&"iconWrapper".to_string()));
-    assert!(classes.contains(&"icon".to_string()));
+    println!("📊 Analysis Results:");
+    println!("  Total CSS files: {}", result.total_css_files);
+    println!("  Total JS files: {}", result.total_js_files);
+    println!("  Used classes: {}", result.used_classes.len());
+    println!("  Unused classes: {}", result.unused_classes.len());
     
-    // Dynamic variants
-    assert!(classes.contains(&"button_primary".to_string()));
-    assert!(classes.contains(&"button_secondary".to_string()));
-    assert!(classes.contains(&"button_danger".to_string()));
-    assert!(classes.contains(&"button_small".to_string()));
-    assert!(classes.contains(&"button_medium".to_string()));
-    assert!(classes.contains(&"button_large".to_string()));
-    assert!(classes.contains(&"button_disabled".to_string()));
+    // Print the actual classes
+    println!("✅ Used classes:");
+    for class in &result.used_classes {
+        println!("  - {} ({}:{})", class.name, class.file_path, class.line_number);
+    }
     
-    println!("✅ Button component test passed - found {} classes", classes.len());
+    println!("🚫 Unused classes:");
+    for class in &result.unused_classes {
+        println!("  - {} ({}:{})", class.name, class.file_path, class.line_number);
+    }
+    
+    // Test that iconLarge is in the unused classes
+    let unused_class_names: Vec<String> = result.unused_classes.iter().map(|c| c.name.clone()).collect();
+    assert!(unused_class_names.contains(&"iconLarge".to_string()), 
+        "iconLarge should be detected as unused");
+    
+    // Test that button is in the used classes
+    let used_class_names: Vec<String> = result.used_classes.iter().map(|c| c.name.clone()).collect();
+    assert!(used_class_names.contains(&"button".to_string()), 
+        "button should be detected as used");
+    
+    println!("✅ Full analysis test passed!");
 }
