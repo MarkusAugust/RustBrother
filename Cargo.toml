@@ -1,0 +1,37 @@
+# Cargo.toml - This is Rust's package configuration file
+# It defines dependencies, metadata, and build settings
+
+[package]
+name = "rustbrother"           # The name of your CLI tool
+version = "0.1.0"              # Semantic versioning
+edition = "2021"               # Rust edition (use latest stable features)
+authors = ["MASK <m.a.sobergklyver@gmail.no>"]
+description = "A CLI tool to analyze unused CSS in React components"
+license = "MIT"
+
+# This creates both a library and a binary (CLI)
+# The library (lib.rs) contains reusable logic
+# The binary (main.rs) provides the CLI interface
+
+[dependencies]
+# CLI argument parsing - makes command line interfaces easy
+clap = { version = "4.0", features = ["derive"] }
+
+# Regular expressions for pattern matching CSS classes and JS code
+regex = "1.10"
+
+# File system traversal - walk through directories easily
+walkdir = "2.4"
+
+# JSON serialization for output formats
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Better error handling
+anyhow = "1.0"
+
+# For colored terminal output (optional but nice)
+colored = "2.0"
+
+# For timestamps in reports
+chrono = { version = "0.4", features = ["serde"] }
