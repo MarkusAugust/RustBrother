@@ -3,7 +3,7 @@
 
 [package]
 name = "rustbrother"           # The name of your CLI tool
-version = "0.1.8"
+version = "0.1.9"
 edition = "2021"               # Rust edition (use latest stable features)
 authors = ["MASK <m.a.sobergklyver@gmail.no>"]
 description = "A CLI tool to analyze unused CSS in React components"
