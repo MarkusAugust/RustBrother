@@ -1,0 +1,72 @@
+# Rust build artifacts
+/target/
+Cargo.lock
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# Test outputs
+test-results/
+*.test
+
+# Temporary files
+tmp/
+temp/
+
+# RustBrother specific
+# Generated reports
+rustbrother-report.html
+css-analysis.json
+*.rustbrother.json
+
+# Example/test outputs
+examples/*/report.*
+examples/*/analysis.*
+
+# Backup files
+*.bak
+*.backup
+
+# Editor specific
+.vim/
+.emacs.d/
+*.sublime-*
+
+# Distribution / packaging
+dist/
+build/
+
+# Local environment
+.env
+.env.local
+
+# report files
+*report.json
+*report.html
+*report.txt
