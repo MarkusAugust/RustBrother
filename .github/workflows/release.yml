@@ -37,7 +37,7 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
 
       - name: Build
-        run: cargo build --release --locked
+        run: cargo build --release
 
       - name: Strip binary (Unix)
         if: matrix.os != 'windows-latest'
