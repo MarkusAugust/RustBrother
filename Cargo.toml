@@ -46,3 +46,5 @@ lto = "thin"
 [package.metadata.release]
 publish = false
 tag-prefix = ""
+tag-name = "{{version}}"
+push = true
