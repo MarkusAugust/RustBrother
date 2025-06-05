@@ -62,6 +62,7 @@ fn test_panel_component_with_mixed_valid_and_invalid_classes() {
         include_css_modules: true,
         include_styled_components: false,
         ignore_patterns: vec![],
+        ..Default::default()
     };
 
     let classes = extract_css_references_with_css_context(&component_content, &config, &actual_css_classes);
@@ -125,6 +126,7 @@ fn test_verify_missing_classes_behavior() {
         include_css_modules: true,
         include_styled_components: false,
         ignore_patterns: vec![],
+        ..Default::default()
     };
 
     let classes_with_fake = extract_css_references_with_css_context(&component_content, &config, &all_classes_including_fake);
@@ -203,6 +205,7 @@ export const PanelWrong = ({
         include_css_modules: true,
         include_styled_components: false,
         ignore_patterns: vec![],
+        ..Default::default()
     };
 
     let classes = extract_css_references_with_css_context(wrong_component_content, &config, &actual_css_classes);
@@ -273,6 +276,7 @@ export const PanelWrong = ({ renderIcon, hideGraphicMobile }) => {
         include_css_modules: true,
         include_styled_components: false,
         ignore_patterns: vec![],
+        ..Default::default()
     };
 
     // Test correct component

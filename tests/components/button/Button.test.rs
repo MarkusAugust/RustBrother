@@ -25,6 +25,7 @@ fn test_button_component() {
         include_css_modules: true,
         include_styled_components: false,
         ignore_patterns: vec![],
+        ..Default::default()
     };
 
     let classes = extract_css_references_with_css_context(&component_content, &config, &css_classes);

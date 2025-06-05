@@ -81,35 +81,70 @@ pub fn extract_css_references(content: &str, config: &AnalysisConfig) -> Vec<Str
 }
 
 /// Extract CSS class references from JavaScript content with known CSS classes
-/// This version can use actual CSS class definitions to generate smarter variants
+/// This version only returns classes that exist in the known_css_classes list
 pub fn extract_css_references_with_css_context(content: &str, config: &AnalysisConfig, known_css_classes: &[String]) -> Vec<String> {
+    // Convert to HashSet for faster lookups
+    let known_classes_set: HashSet<String> = known_css_classes.iter().cloned().collect();
     let mut references = HashSet::new();
     
     // Pattern 1: className="class1 class2"
-    references.extend(extract_simple_classnames(content));
+    let simple_classes = extract_simple_classnames(content);
+    for class in simple_classes {
+        if known_classes_set.contains(&class) {
+            references.insert(class);
+        }
+    }
     
     // Pattern 2: className={'class1 class2'}
-    references.extend(extract_object_classnames(content));
+    let object_classes = extract_object_classnames(content);
+    for class in object_classes {
+        if known_classes_set.contains(&class) {
+            references.insert(class);
+        }
+    }
     
     // Pattern 3: CSS modules (if enabled)
     if config.include_css_modules {
-        references.extend(extract_css_modules_references(content));
+        let css_module_classes = extract_css_modules_references(content);
+        for class in css_module_classes {
+            if known_classes_set.contains(&class) {
+                references.insert(class);
+            }
+        }
         
-        // Pattern 4: Dynamic CSS modules with CSS context - ENHANCED!
+        // Pattern 4: Dynamic CSS modules with CSS context
         let dynamic_classes = extract_dynamic_css_modules_with_context(content, known_css_classes);
-        references.extend(dynamic_classes);
+        for class in dynamic_classes {
+            if known_classes_set.contains(&class) {
+                references.insert(class);
+            }
+        }
         
-        // Pattern 5: Variable assignment with CSS context - ENHANCED!
+        // Pattern 5: Variable assignment with CSS context
         let variable_classes = extract_variable_assignment_patterns_with_context(content, known_css_classes);
-        references.extend(variable_classes);
+        for class in variable_classes {
+            if known_classes_set.contains(&class) {
+                references.insert(class);
+            }
+        }
         
         // Pattern 6: Template literal patterns
-        references.extend(extract_template_literal_classes(content));
+        let template_classes = extract_template_literal_classes(content);
+        for class in template_classes {
+            if known_classes_set.contains(&class) {
+                references.insert(class);
+            }
+        }
     }
     
     // Pattern 7: styled-components (if enabled)
     if config.include_styled_components {
-        references.extend(extract_styled_components_references(content));
+        let styled_classes = extract_styled_components_references(content);
+        for class in styled_classes {
+            if known_classes_set.contains(&class) {
+                references.insert(class);
+            }
+        }
     }
     
     // Convert to Vec and sort

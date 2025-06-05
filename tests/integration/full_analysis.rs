@@ -1,5 +1,3 @@
-// tests/integration/full_analysis.rs
-
 use rustbrother::{analyze_directory, AnalysisConfig};
 use std::path::Path;
 
@@ -10,6 +8,7 @@ fn test_full_component_analysis() {
         include_css_modules: true,
         include_styled_components: false,
         ignore_patterns: vec![],
+        ..Default::default()
     };
 
     let result = analyze_directory(test_path, &config).unwrap();
