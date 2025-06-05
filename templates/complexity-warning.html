@@ -1,0 +1,69 @@
+<div class="complexity-warning" style="
+    padding: 12px 0;
+    border-bottom: 1px solid #e9ecef;
+    border-left: 4px solid #fbd38d; /* fallback, replaced with {{SEVERITY_COLOR}} by Rust */
+    padding-left: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+   justify-content: space-evenly;
+    margin-bottom: 0;
+">
+    <div class="warning-line" style="
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;">
+        <div>Line</div>
+        <div>
+
+            <span class="warning-line" style="
+                color: #4a5568;
+                
+                font-weight: normal;
+                white-space: nowrap;
+                flex-shrink: 0;
+                ">{{LINE_NUMBER}}
+        </span>
+    </div>
+    </div>
+    <div class="warning-info" style="
+        flex: 1;
+        min-width: 200px;
+    ">
+        <div class="warning-header" style="
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            font-weight: bold;
+            margin-bottom: 4px;
+            color: #2d3748;
+            gap: 15px;
+        ">
+            <span class="warning-type">{{WARNING_TYPE}}</span>
+       
+        </div>
+        <div class="warning-suggestion" style="
+            color: #4a5568;
+            font-style: italic;
+          
+            line-height: 1.3;
+        ">💡 {{SUGGESTION}}</div>
+    </div>
+    <div class="warning-pattern" style="
+        font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+        background: #f8f9fa;
+        border: 1px solid #e2e8f0;
+        padding: 8px 12px;
+        border-radius: 4px;
+        color: #2d3748;
+     
+        word-break: break-all;
+        overflow-wrap: break-word;
+        line-height: 1.2;
+        flex: 1;
+        min-width: 0;
+        max-width: 45%;
+    ">{{PATTERN}}</div>
+</div>
