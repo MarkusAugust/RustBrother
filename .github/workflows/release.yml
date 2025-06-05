@@ -15,6 +15,7 @@ jobs:
   build-and-release:
     runs-on: ${{ matrix.os }}
     strategy:
+      max-parallel: 2
       matrix:
         include:
           - os: ubuntu-latest
@@ -25,11 +26,11 @@ jobs:
             target: x86_64-pc-windows-msvc
             artifact_name: rustbrother.exe
             asset_name: rustbrother-windows-amd64
-          - os: macos-latest
+          - os: macos-13
             target: x86_64-apple-darwin
             artifact_name: rustbrother
             asset_name: rustbrother-darwin-amd64
-          - os: macos-latest
+          - os: macos-14
             target: aarch64-apple-darwin
             artifact_name: rustbrother
             asset_name: rustbrother-darwin-arm64
