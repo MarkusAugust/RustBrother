@@ -1,0 +1,49 @@
+/* tests/components/card/Card.module.scss */
+.card {
+  border: 1px solid #dee2e6;
+  border-radius: 0.375rem;
+  overflow: hidden;
+  
+  &_theme_dark {
+    background-color: #343a40;
+    color: white;
+  }
+  
+  &_theme_light {
+    background-color: #f8f9fa;
+    color: #495057;
+  }
+  
+  &_theme_colorful {
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+    color: white;
+  }
+  
+  &_elevation_low {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+  }
+  
+  &_elevation_medium {
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+  
+  &_elevation_high {
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  }
+}
+
+.cardHeader {
+  padding: 1rem;
+  border-bottom: 1px solid #dee2e6;
+  font-weight: bold;
+}
+
+.cardBody {
+  padding: 1rem;
+}
+
+.cardFooter {
+  padding: 1rem;
+  border-top: 1px solid #dee2e6;
+  background-color: #f8f9fa;
+}
