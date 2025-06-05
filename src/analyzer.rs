@@ -6,7 +6,7 @@ use std::path::Path;
 use crate::{AnalysisResult, CssClass, CustomProperty, AnalysisConfig};
 use crate::css_parser::{find_css_classes, find_custom_properties, find_custom_property_usage};
 use crate::js_parser::find_js_css_references_with_context;
-use crate::complexity_analyzer::find_complexity_warnings; // NEW!
+use crate::complexity_analyzer::find_complexity_warnings; 
 
 /// Main function that analyzes a directory and returns results
 pub fn analyze_directory(path: &Path, config: &AnalysisConfig) -> anyhow::Result<AnalysisResult> {
@@ -29,7 +29,7 @@ pub fn analyze_directory(path: &Path, config: &AnalysisConfig) -> anyhow::Result
     println!("🔍 Analyzing custom property usage...");
     let used_property_names = find_custom_property_usage(path, config)?;
     
-    // Step 6: NEW! Find complexity warnings
+    // Step 6: Find complexity warnings
     println!("🔍 Analyzing code complexity patterns...");
     let complexity_warnings = find_complexity_warnings(path, config)?;
     
@@ -40,20 +40,20 @@ pub fn analyze_directory(path: &Path, config: &AnalysisConfig) -> anyhow::Result
         js_references, 
         custom_properties, 
         used_property_names, 
-        complexity_warnings // NEW!
+        complexity_warnings 
     )?;
     
     println!("✅ Analysis complete!");
     Ok(analysis)
 }
 
-/// Updated analysis function to include complexity warnings
+///  Analysis function to include complexity warnings
 fn analyze_css_usage(
     css_classes: Vec<CssClass>,
     js_references: Vec<String>,
     custom_properties: Vec<CustomProperty>,
     used_property_names: HashSet<String>,
-    complexity_warnings: Vec<crate::ComplexityWarning>, // NEW!
+    complexity_warnings: Vec<crate::ComplexityWarning>, 
 ) -> anyhow::Result<AnalysisResult> {
     
     let js_class_set: HashSet<String> = js_references.into_iter().collect();
@@ -80,7 +80,7 @@ fn analyze_css_usage(
         unused_classes,
         used_custom_properties,
         unused_custom_properties,
-        complexity_warnings, // NEW!
+        complexity_warnings, 
         total_files_scanned,
         total_css_files,
         total_js_files,

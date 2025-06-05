@@ -1,4 +1,4 @@
-// Updated src/lib.rs - Add complexity analysis module and types
+// src/lib.rs - complexity analysis module and types
 
 use serde::{Deserialize, Serialize};
 
@@ -7,14 +7,14 @@ pub mod css_parser;
 pub mod js_parser;
 pub mod analyzer;
 pub mod reporter;
-pub mod complexity_analyzer; // NEW!
+pub mod complexity_analyzer; 
 
 // Re-export functions including complexity analysis
 pub use analyzer::analyze_directory;
 pub use css_parser::{find_css_classes, find_custom_properties, find_custom_property_usage};
 pub use js_parser::{find_js_css_references, find_js_css_references_with_context, extract_css_references, extract_css_references_with_css_context};
 pub use reporter::generate_report;
-pub use complexity_analyzer::find_complexity_warnings; // NEW!
+pub use complexity_analyzer::find_complexity_warnings; 
 
 /// Represents a single CSS class found in a stylesheet
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -62,27 +62,27 @@ pub enum WarningSeverity {
     High,   // High complexity, should refactor for maintainability
 }
 
-/// Updated analysis results to include complexity warnings
+/// Analysis results to include complexity warnings
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AnalysisResult {
     pub used_classes: Vec<CssClass>,
     pub unused_classes: Vec<CssClass>,
     pub used_custom_properties: Vec<CustomProperty>,
     pub unused_custom_properties: Vec<CustomProperty>,
-    pub complexity_warnings: Vec<ComplexityWarning>, // NEW!
+    pub complexity_warnings: Vec<ComplexityWarning>, 
     pub total_files_scanned: usize,
     pub total_css_files: usize,
     pub total_js_files: usize,
 }
 
-/// Updated configuration to include complexity analysis options
+/// Cconfiguration to include complexity analysis options
 #[derive(Debug, Clone)]
 pub struct AnalysisConfig {
     pub include_css_modules: bool,
     pub include_styled_components: bool,
     pub ignore_patterns: Vec<String>,
-    pub enable_complexity_warnings: bool, // NEW!
-    pub complexity_threshold: WarningSeverity, // NEW!
+    pub enable_complexity_warnings: bool, 
+    pub complexity_threshold: WarningSeverity, 
 }
 
 impl Default for AnalysisConfig {

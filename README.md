@@ -127,7 +127,7 @@ Classes that have outlived their purpose - defined but never referenced:
 .legacy-style { /* ... */ }     /* 🗑️ Forgotten fragment */
 ```
 
-### ⚠️ Dark Sorcery Patterns (NEW!)
+### ⚠️ Dark Sorcery Patterns 
 Complex CSS usage patterns that harm maintainability and static analysis:
 
 #### 🔴 High Severity - Forbidden Dark Arts
