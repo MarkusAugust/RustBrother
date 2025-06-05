@@ -9,7 +9,7 @@ on:
       - '[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
-  release:
+  build:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -35,26 +35,38 @@ jobs:
       - name: Build
         run: cargo build --release --target ${{ matrix.target }}
 
-      - name: Create archive and checksum
+      - name: Create archive
         shell: bash
         run: |
+          mkdir -p release
           archive="rustbrother-${{ matrix.target }}.tar.gz"
-          tar -czf "$archive" -C "./target/${{ matrix.target }}/release" rustbrother
+          tar -czf "release/$archive" -C "./target/${{ matrix.target }}/release" rustbrother
 
-          # Use different checksum commands for different OS
-          if [[ "${{ runner.os }}" == "macOS" ]]; then
-            shasum -a 256 "$archive" > "${archive}.sha256"
-          else
-            sha256sum "$archive" > "${archive}.sha256"
-          fi
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: rustbrother-${{ matrix.target }}
+          path: release/
 
-          echo "ARCHIVE=$archive" >> $GITHUB_ENV
-          echo "CHECKSUM=${archive}.sha256" >> $GITHUB_ENV
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
 
-      - name: Upload to release
+      - name: Create checksums
+        run: |
+          cd artifacts
+          sha256sum *.tar.gz > checksums.txt
+
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            ${{ env.ARCHIVE }}
-            ${{ env.CHECKSUM }}
+            artifacts/*.tar.gz
+            artifacts/checksums.txt
           generate_release_notes: true
