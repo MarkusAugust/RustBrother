@@ -38,13 +38,11 @@ colored = "2.0"
 # For timestamps in reports
 chrono = { version = "0.4", features = ["serde"] }
 
-# The profile that 'dist' will build with
-[profile.dist]
-inherits = "release"
-lto = "thin"
 
 [package.metadata.release]
 publish = false
 tag-prefix = ""
 tag-name = "{{version}}"
 push = true
+
+
