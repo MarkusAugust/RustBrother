@@ -35,15 +35,19 @@ jobs:
       - name: Build
         run: cargo build --release --target ${{ matrix.target }}
 
-      - name: Create archive
+      - name: Create archive and checksum
         shell: bash
         run: |
           archive="rustbrother-${{ matrix.target }}.tar.gz"
           tar -czf "$archive" -C "./target/${{ matrix.target }}/release" rustbrother
+          sha256sum "$archive" > "${archive}.sha256"
           echo "ARCHIVE=$archive" >> $GITHUB_ENV
+          echo "CHECKSUM=${archive}.sha256" >> $GITHUB_ENV
 
       - name: Upload to release
         uses: softprops/action-gh-release@v1
         with:
-          files: ${{ env.ARCHIVE }}
+          files: |
+            ${{ env.ARCHIVE }}
+            ${{ env.CHECKSUM }}
           generate_release_notes: true
