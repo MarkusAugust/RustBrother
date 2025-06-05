@@ -68,5 +68,5 @@ build/
 
 # report files
 *report.json
-*report.html
+/report.html
 *report.txt

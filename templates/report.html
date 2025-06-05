@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚔️ RustBrother CSS Analysis Report</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; 
+            line-height: 1.4; 
+            background-color: #f8fafc;
+            font-size: 14px;
+        }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+        .header { 
+            color: #2d3748; 
+            border-bottom: 2px solid #e53e3e; 
+            padding-bottom: 15px; 
+            margin-bottom: 20px; 
+            text-align: center;
+        }
+        .header h1 { font-size: 2rem; margin-bottom: 5px; }
+        .header p { color: #666; font-size: 0.9rem; margin: 5px 0; }
+        
+        .summary { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px; 
+            border-radius: 8px; 
+            margin-bottom: 20px; 
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+        .metric { text-align: center; }
+        .metric-value { 
+            font-size: 1.8rem; 
+            font-weight: bold; 
+            display: block;
+            margin-bottom: 2px;
+        }
+        .metric-label { 
+            opacity: 0.9; 
+            font-size: 0.75rem; 
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .section { 
+            background: white;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .section-header {
+            padding: 20px;
+            cursor: pointer;
+            user-select: none;
+            border-bottom: 1px solid #e9ecef;
+            transition: background-color 0.2s ease;
+        }
+        
+        .section-header:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .section-header h2 { 
+            color: #2d3748;
+            font-size: 1.3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 0;
+        }
+        
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .chevron {
+            transition: transform 0.3s ease;
+            font-size: 1rem;
+            color: #666;
+        }
+        
+        .section.open .chevron {
+            transform: rotate(90deg);
+        }
+        
+        .section-content {
+            display: none;
+            padding: 20px;
+        }
+        
+        .section.open .section-content {
+            display: block;
+        }
+        
+        .file-group { 
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px; 
+            margin-bottom: 12px; 
+            overflow: hidden;
+        }
+        .file-header { 
+            background: #8B4513;
+            color: white;
+            padding: 10px 15px; 
+            font-weight: 600; 
+            font-size: 0.85rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .class-list { padding: 12px; }
+        .class-item { 
+            padding: 4px 0; 
+            font-family: 'SF Mono', 'Monaco', monospace; 
+            color: #e53e3e; 
+            border-bottom: 1px solid #f1f1f1;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+        }
+        .class-item:last-child { border-bottom: none; }
+        .class-name { font-weight: 600; }
+        .class-line { color: #718096; }
+        .unused-count { 
+            background: #2d3748; 
+            color: #ffffff; 
+            padding: 2px 8px; 
+            border-radius: 12px; 
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        .no-unused { 
+            text-align: center; 
+            padding: 30px 20px; 
+            color: #38a169; 
+            font-size: 1rem;
+        }
+        
+        .badge {
+            background: #667eea;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        
+        .stats-section {
+            background: white;
+            border-radius: 6px;
+            padding: 15px 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .stats-section h2 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #2d3748;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #f1f1f1;
+        }
+        
+        .stat-item:last-child { border-bottom: none; }
+        
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-style: italic;
+            font-size: 0.85rem;
+            padding: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚔️ RustBrother CSS Analysis Report</h1>
+            <p>Hunting unused CSS classes and dark sorcery patterns</p>
+            <p>Generated on {{TIMESTAMP}}</p>
+        </div>
+
+        <div class="summary">
+            <div class="metric">
+                <span class="metric-value">{{TOTAL_CLASSES}}</span>
+                <div class="metric-label">Total Classes</div>
+            </div>
+            <div class="metric">
+                <span class="metric-value">{{USED_CLASSES}}</span>
+                <div class="metric-label">Active Classes</div>
+            </div>
+            <div class="metric">
+                <span class="metric-value">{{UNUSED_CLASSES}}</span>
+                <div class="metric-label">Corrupted Remnants</div>
+            </div>
+            <div class="metric">
+                <span class="metric-value">{{UNUSED_PERCENTAGE}}%</span>
+                <div class="metric-label">Corruption Level</div>
+            </div>
+            <div class="metric">
+                <span class="metric-value">{{COMPLEXITY_WARNINGS_TOTAL}}</span>
+                <div class="metric-label">Dark Sorcery</div>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <div class="section" id="complexity-section">
+                <div class="section-header" onclick="toggleSection('complexity-section')">
+                    <h2>
+                        <div class="section-title">
+                            <span>▶</span>
+                            <span>⚠️ Dark Sorcery Detected</span>
+                        </div>
+                        <span class="badge">{{COMPLEXITY_WARNINGS_TOTAL}} spells</span>
+                    </h2>
+                </div>
+                <div class="section-content">
+                    {{COMPLEXITY_WARNINGS_CONTENT}}
+                </div>
+            </div>
+
+            <div class="section" id="unused-section">
+                <div class="section-header" onclick="toggleSection('unused-section')">
+                    <h2>
+                        <div class="section-title">
+                            <span>▶</span>
+                            <span>🗑️ Remnants for Purging</span>
+                        </div>
+                        <span class="badge">{{UNUSED_CLASSES}} remnants</span>
+                    </h2>
+                </div>
+                <div class="section-content">
+                    {{UNUSED_CLASSES_CONTENT}}
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-section">
+            <h2>📊 Territory Analysis</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span><strong>Files patrolled:</strong></span>
+                    <span>{{TOTAL_FILES}}</span>
+                </div>
+                <div class="stat-item">
+                    <span><strong>CSS files scanned:</strong></span>
+                    <span>{{CSS_FILES}}</span>
+                </div>
+                <div class="stat-item">
+                    <span><strong>Custom properties:</strong></span>
+                    <span>{{CUSTOM_PROPERTIES}}</span>
+                </div>
+                <div class="stat-item">
+                    <span><strong>Dark sorcery breakdown:</strong></span>
+                    <span>🔴 {{COMPLEXITY_HIGH}} 🟡 {{COMPLEXITY_MEDIUM}} 🟢 {{COMPLEXITY_LOW}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><em>"The RustBrothers patrol the forgotten corners of your codebase, ensuring no corruption goes unnoticed. Trust in the rust."</em></p>
+        </div>
+    </div>
+
+    <script>
+        function toggleSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            const chevron = section.querySelector('.section-title span:first-child');
+            
+            if (section.classList.contains('open')) {
+                section.classList.remove('open');
+                chevron.textContent = '▶';
+            } else {
+                section.classList.add('open');
+                chevron.textContent = '▼';
+            }
+        }
+    </script>
+</body>
+</html>
