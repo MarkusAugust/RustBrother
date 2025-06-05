@@ -42,3 +42,7 @@ chrono = { version = "0.4", features = ["serde"] }
 [profile.dist]
 inherits = "release"
 lto = "thin"
+
+[package.metadata.release]
+publish = false
+tag-prefix = ""
